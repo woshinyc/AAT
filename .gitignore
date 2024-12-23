@@ -1,0 +1,25 @@
+# Unity auto-generated files to ignore
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+*.csproj
+*.pidb
+*.sln
+*.user
+*.userprefs
+*.unitypackage
+
+# Plastic SCM and version control files
+.plastic/
+ignore.conf
+
+# Visual Studio and IDE-specific files
+.vscode/
+.idea/
+*.vsconfig
+UserSettings/
+
