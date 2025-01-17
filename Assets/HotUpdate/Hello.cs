@@ -5,6 +5,7 @@ public class Hello
 {
     public static void Run()
     {
-        Debug.Log("Hello, HybridCLR11122233334444");
+        Debug.Log("Hello, HybridCLR11122233334444rrr");
+        Debug.Log("Hello, rrrrrrrrrrrr");
     }
 }
