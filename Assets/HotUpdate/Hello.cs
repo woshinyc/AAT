@@ -5,7 +5,7 @@ public class Hello
 {
     public static void Run()
     {
-        Debug.Log("Hello, HybridCLR---nyc");
+        Debug.Log("Hello, HybridCLR---nyc  niu   lihai");
 
     }
 }

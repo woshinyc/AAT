@@ -91,6 +91,12 @@ public partial class JenkinsBuild : MonoBehaviour
         var aa = Enum.GetName(typeof(BuildTarget), EditorUserBuildSettings.activeBuildTarget);
         string path = Path.Combine(Application.dataPath, "../ServerData/" + Enum.GetName(typeof(BuildTarget), EditorUserBuildSettings.activeBuildTarget));
         Debug.Log($"aa:{aa}");
+  
+
+    
+
+        // AddressableAssetSettings.activeProfileId = activeProfileId;
+
     }
     // 
     [MenuItem("Shepherd0619/Build Hot Update")]
@@ -112,6 +118,10 @@ public partial class JenkinsBuild : MonoBehaviour
         Debug.Log(
             $"[JenkinsBuild] Start building hot update for {Enum.GetName(typeof(BuildTarget), target)}"
         );
+        AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+        settings.activeProfileId = settings.profileSettings.GetProfileId("腾讯云");
+
+
         #region  第一步 用华佗的打包API 调用打包生成文件
 
         try
