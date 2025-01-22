@@ -88,16 +88,9 @@ public partial class JenkinsBuild : MonoBehaviour
     [MenuItem("Shepherd0619/Test2")]
     public static void Test2()
     {
-        var aa = Enum.GetName(typeof(BuildTarget), EditorUserBuildSettings.activeBuildTarget);
-        string path = Path.Combine(Application.dataPath, "../ServerData/" + Enum.GetName(typeof(BuildTarget), EditorUserBuildSettings.activeBuildTarget));
-        Debug.Log($"aa:{aa}");
-  
-
-    
-
-        // AddressableAssetSettings.activeProfileId = activeProfileId;
-
+        CheckActiveProfileId();
     }
+
     // 
     [MenuItem("Shepherd0619/Build Hot Update")]
     /// <summary>
@@ -108,7 +101,42 @@ public partial class JenkinsBuild : MonoBehaviour
         Debug.Log($"构建地址:{EditorUserBuildSettings.activeBuildTarget}");
         BuildHotUpdate(EditorUserBuildSettings.activeBuildTarget);
     }
+    public static void CheckActiveProfileId() {
 
+        AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+      
+        // 获取命令行参数
+        string[] args = System.Environment.GetCommandLineArgs();
+
+        // 查找参数
+        string customArg = null;
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == "--" && i + 1 < args.Length)
+            {
+                customArg = args[i + 1];
+                break;
+            }
+        }
+        var ProfileName = "Ubuntu";
+        // 输出日志到控制台
+        if (!string.IsNullOrEmpty(customArg))
+        {
+            // 外部设置 远程加载资源的地址
+            Debug.Log($"CommandLine ProfileName: {customArg}");
+            ProfileName = customArg;
+        }
+        else
+        {
+            Debug.LogError("No CommandLine");           
+        }
+        if (!settings.profileSettings.GetAllProfileNames().Contains(ProfileName)) {
+            throw new Exception($" CommandLineArgs is  failed  args:{string.Join(",", args)}  \n ProfileName is:{ProfileName} is not Include \n profileSettings is :{string.Join(",", settings.profileSettings.GetAllProfileNames())}");
+        }
+        settings.activeProfileId = settings.profileSettings.GetProfileId(ProfileName); 
+        Debug.Log($"ProfileName select: {ProfileName}");
+        Debug.Log($"ProfileId  select: {settings.activeProfileId}");
+    }
     /// <summary>
     /// 开始执行HybridCLR热更打包
     /// </summary>
@@ -118,9 +146,8 @@ public partial class JenkinsBuild : MonoBehaviour
         Debug.Log(
             $"[JenkinsBuild] Start building hot update for {Enum.GetName(typeof(BuildTarget), target)}"
         );
-        AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-        settings.activeProfileId = settings.profileSettings.GetProfileId("腾讯云");
-
+        // 检索一下要从哪个平台作为远程加载资源的地址
+        CheckActiveProfileId();
 
         #region  第一步 用华佗的打包API 调用打包生成文件
 
